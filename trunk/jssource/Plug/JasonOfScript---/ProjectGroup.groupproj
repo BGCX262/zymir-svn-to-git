@@ -1,0 +1,54 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{2d08e75b-339e-42d6-8b40-00ce62c4458c}</ProjectGuid>
+  </PropertyGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Projects Include="JsPlugOfScript.dproj" />
+    <Projects Include="PlugRegDll.dproj" />
+    <Projects Include="Project2.dproj" />
+  </ItemGroup>
+  <ProjectExtensions>
+    <Borland.Personality>Default.Personality</Borland.Personality>
+    <Borland.ProjectType />
+    <BorlandProject>
+<BorlandProject xmlns=""><Default.Personality></Default.Personality></BorlandProject></BorlandProject>
+  </ProjectExtensions>
+  <Target Name="JsPlugOfScript">
+    <MSBuild Projects="JsPlugOfScript.dproj" Targets="" />
+  </Target>
+  <Target Name="JsPlugOfScript:Clean">
+    <MSBuild Projects="JsPlugOfScript.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="JsPlugOfScript:Make">
+    <MSBuild Projects="JsPlugOfScript.dproj" Targets="Make" />
+  </Target>
+  <Target Name="PlugRegDll">
+    <MSBuild Projects="PlugRegDll.dproj" Targets="" />
+  </Target>
+  <Target Name="PlugRegDll:Clean">
+    <MSBuild Projects="PlugRegDll.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="PlugRegDll:Make">
+    <MSBuild Projects="PlugRegDll.dproj" Targets="Make" />
+  </Target>
+  <Target Name="Project2">
+    <MSBuild Projects="Project2.dproj" Targets="" />
+  </Target>
+  <Target Name="Project2:Clean">
+    <MSBuild Projects="Project2.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="Project2:Make">
+    <MSBuild Projects="Project2.dproj" Targets="Make" />
+  </Target>
+  <Target Name="Build">
+    <CallTarget Targets="JsPlugOfScript;PlugRegDll;Project2" />
+  </Target>
+  <Target Name="Clean">
+    <CallTarget Targets="JsPlugOfScript:Clean;PlugRegDll:Clean;Project2:Clean" />
+  </Target>
+  <Target Name="Make">
+    <CallTarget Targets="JsPlugOfScript:Make;PlugRegDll:Make;Project2:Make" />
+  </Target>
+  <Import Condition="Exists('$(MSBuildBinPath)\Borland.Group.Targets')" Project="$(MSBuildBinPath)\Borland.Group.Targets" />
+</Project>

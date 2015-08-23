@@ -1,0 +1,325 @@
+EurekaLog 6.0.23
+
+Application:
+------------------------------------------------------------
+  1.1 Start Date      : Tue, 1 May 2012 15:20:09 +0800
+  1.2 Name/Description: M2Server.exe - (http://www.51m2.com)
+  1.3 Version Number  : 1.0.0.2
+  1.4 Parameters      : 
+  1.5 Compilation Date: Tue, 1 May 2012 15:19:38 +0800
+  1.6 Up Time         : 32 minutes, 57 seconds
+
+Exception:
+-----------------------------------------------------------------
+  2.1 Date          : Tue, 1 May 2012 15:53:06 +0800
+  2.2 Address       : 
+  2.3 Module Name   : M2Server.exe - (http://www.51m2.com)
+  2.4 Module Version: 1.0.0.2
+  2.5 Type          : EMemoryLeak
+  2.6 Message       : Memory Leak: Total size=18496 - Count=1006.
+  2.7 ID            : 05C5
+  2.8 Count         : 1
+  2.9 Status        : New
+  2.10 Note         : 
+
+User:
+-------------------------------------------------------
+  3.1 ID        : Administrator
+  3.2 Name      : VIPUSER
+  3.3 Email     : 
+  3.4 Company   : CHINA
+  3.5 Privileges: SeChangeNotifyPrivilege         - ON
+                  SeSecurityPrivilege             - OFF
+                  SeBackupPrivilege               - OFF
+                  SeRestorePrivilege              - OFF
+                  SeSystemtimePrivilege           - OFF
+                  SeShutdownPrivilege             - OFF
+                  SeRemoteShutdownPrivilege       - OFF
+                  SeTakeOwnershipPrivilege        - OFF
+                  SeDebugPrivilege                - OFF
+                  SeSystemEnvironmentPrivilege    - OFF
+                  SeSystemProfilePrivilege        - OFF
+                  SeProfileSingleProcessPrivilege - OFF
+                  SeIncreaseBasePriorityPrivilege - OFF
+                  SeLoadDriverPrivilege           - ON
+                  SeCreatePagefilePrivilege       - OFF
+                  SeIncreaseQuotaPrivilege        - OFF
+                  SeUndockPrivilege               - ON
+                  SeManageVolumePrivilege         - OFF
+                  SeImpersonatePrivilege          - ON
+                  SeCreateGlobalPrivilege         - ON
+
+Active Controls:
+---------------------------------------
+  4.1 Form Class   : #32770
+  4.2 Form Text    : Windows 任务管理器
+  4.3 Control Class: 
+  4.4 Control Text : 
+
+Computer:
+-------------------------------------------------------------------------------
+  5.1 Name          : CHINA-20120429O
+  5.2 Total Memory  : 2014 Mb
+  5.3 Free Memory   : 1198 Mb
+  5.4 Total Disk    : 200 Gb
+  5.5 Free Disk     : 134.01 Gb
+  5.6 System Up Time: 1 hour, 49 minutes, 37 seconds
+  5.7 Processor     : Intel(R) Pentium(R) 4 CPU 3.00GHz
+  5.8 Display Mode  : 1152 x 864, 32 bit
+  5.9 Display DPI   : 96
+  5.10 Video Card   : NVIDIA GeForce 8500 GT (driver 6.14.12.5931 - RAM 512 MB)
+  5.11 Printer      : 
+
+Operating System:
+------------------------------------
+  6.1 Type    : Microsoft Windows XP
+  6.2 Build # : 2600
+  6.3 Update  : 
+  6.4 Language: Chinese
+  6.5 Charset : 134
+
+Network:
+---------------------------------
+  7.1 IP Address: 192.168.001.101
+  7.2 Submask   : 255.255.255.000
+  7.3 Gateway   : 192.168.001.001
+  7.4 DNS 1     : 202.101.172.035
+  7.5 DNS 2     : 202.101.172.047
+  7.6 DHCP      : ON             
+
+Call Stack Information:
+---------------------------------------------------------------------------------------
+|Address |Module      |Unit           |Class          |Procedure/Method     |Line     |
+---------------------------------------------------------------------------------------
+|+Memory Leak: Type=TFrmDB; Total size=1416; Count=1                                  |
+|-------------------------------------------------------------------------------------|
+|0060A0F9|M2Server.exe|svMain.pas     |TFrmMain       |StartTimerTimer      |825[5]   |
+|-------------------------------------------------------------------------------------|
+|                                                                                     |
+|+Memory Leak: Type=TEventManager; Total size=92; Count=1                             |
+|-------------------------------------------------------------------------------------|
+|0060E154|M2Server.exe|svMain.pas     |TFrmMain       |StartService         |1900[89] |
+|-------------------------------------------------------------------------------------|
+|                                                                                     |
+|+Memory Leak: Type=Data; Total size=10; Count=1                                      |
+|-------------------------------------------------------------------------------------|
+|00402FBC|M2Server.exe|system.pas     |               |_GetMem              |2654[3]  |
+|0040593C|M2Server.exe|system.pas     |               |_NewAnsiString       |12429[7] |
+|00405967|M2Server.exe|system.pas     |               |_LStrFromPCharLen    |12461[12]|
+|0040CD9F|M2Server.exe|sysutils.pas   |               |IntToStr             |4746[10] |
+|7C92CFDA|ntdll.dll   |               |               |ZwClose              |         |
+|7C809C25|kernel32.dll|               |               |CloseHandle          |         |
+|004E7D22|M2Server.exe|HUtil32.pas    |               |CalcFileCRC          |2071[16] |
+|004293FB|M2Server.exe|Classes.pas    |TWriter        |DefineProperty       |7461[3]  |
+|004293FB|M2Server.exe|Classes.pas    |TWriter        |DefineProperty       |7461[3]  |
+|0060A1E4|M2Server.exe|svMain.pas     |TFrmMain       |StartTimerTimer      |860[40]  |
+|-------------------------------------------------------------------------------------|
+|                                                                                     |
+|+Memory Leak: Type=Exception; Total size=12; Count=1                                 |
+|-------------------------------------------------------------------------------------|
+|004E7D31|M2Server.exe|HUtil32.pas    |               |CalcFileCRC          |2071[16] |
+|004293FB|M2Server.exe|Classes.pas    |TWriter        |DefineProperty       |7461[3]  |
+|004293FB|M2Server.exe|Classes.pas    |TWriter        |DefineProperty       |7461[3]  |
+|0060A1E4|M2Server.exe|svMain.pas     |TFrmMain       |StartTimerTimer      |860[40]  |
+|-------------------------------------------------------------------------------------|
+|                                                                                     |
+|+Memory Leak: Type=Data; Total size=112; Count=2                                     |
+|-------------------------------------------------------------------------------------|
+|0040302B|M2Server.exe|system.pas     |               |_ReallocMem          |2786[33] |
+|0040710A|M2Server.exe|system.pas     |               |DynArraySetLength    |16859[39]|
+|00405FCA|M2Server.exe|system.pas     |               |_LStrSetLength       |13776[21]|
+|004071E1|M2Server.exe|system.pas     |               |_DynArraySetLength   |16907[3] |
+|00526A4E|M2Server.exe|FGInt.pas      |               |Base2StringToFGInt   |1068[4]  |
+|00402FBC|M2Server.exe|system.pas     |               |_GetMem              |2654[3]  |
+|0040732F|M2Server.exe|system.pas     |               |_DynArrayClear       |17019[32]|
+|005258CA|M2Server.exe|FGInt.pas      |               |Base10StringToFGInt  |562[29]  |
+|-------------------------------------------------------------------------------------|
+|                                                                                     |
+|+Memory Leak: Type=Data; Total size=144; Count=9                                     |
+|-------------------------------------------------------------------------------------|
+|00402FBC|M2Server.exe|system.pas     |               |_GetMem              |2654[3]  |
+|0040593C|M2Server.exe|system.pas     |               |_NewAnsiString       |12429[7] |
+|00405967|M2Server.exe|system.pas     |               |_LStrFromPCharLen    |12461[12]|
+|0057F0EB|M2Server.exe|LocalDB.pas    |TFrmDB         |LoadItemsDB          |266[17]  |
+|-------------------------------------------------------------------------------------|
+|                                                                                     |
+|+Memory Leak: Type=Data; Total size=12; Count=1                                      |
+|-------------------------------------------------------------------------------------|
+|00402FBC|M2Server.exe|system.pas     |               |_GetMem              |2654[3]  |
+|0040593C|M2Server.exe|system.pas     |               |_NewAnsiString       |12429[7] |
+|004058CF|M2Server.exe|system.pas     |               |_LStrAsg             |12332[11]|
+|00424DCD|M2Server.exe|Classes.pas    |TStrings       |SetLineBreak         |4867[4]  |
+|00424D3F|M2Server.exe|Classes.pas    |TStrings       |GetLineBreak         |4835[2]  |
+|00424315|M2Server.exe|Classes.pas    |TStrings       |GetTextStr           |4497[3]  |
+|00579972|M2Server.exe|DBTables.pas   |TQuery         |QueryChanged         |8707[10] |
+|-------------------------------------------------------------------------------------|
+|                                                                                     |
+|+Memory Leak: Type=Data; Total size=224; Count=2                                     |
+|-------------------------------------------------------------------------------------|
+|00422D10|M2Server.exe|Classes.pas    |TList          |SetCapacity          |3136[5]  |
+|00422B77|M2Server.exe|Classes.pas    |TList          |Grow                 |3012[8]  |
+|0042298F|M2Server.exe|Classes.pas    |TList          |Add                  |2920[3]  |
+|00423B74|M2Server.exe|Classes.pas    |TCollection    |InsertItem           |4141[2]  |
+|004236E4|M2Server.exe|Classes.pas    |TCollectionItem|SetCollection        |3928[4]  |
+|00423558|M2Server.exe|Classes.pas    |TCollectionItem|Create               |3878[1]  |
+|004237C7|M2Server.exe|Classes.pas    |TCollection    |Add                  |3991[1]  |
+|00556381|M2Server.exe|DB.pas         |TFieldDefs     |AddFieldDef          |3115[1]  |
+|005760D4|M2Server.exe|DBTables.pas   |TBDEDataSet    |AddFieldDesc         |4580[50] |
+|-------------------------------------------------------------------------------------|
+|                                                                                     |
+|+Memory Leak: Type=TList; Total size=6000; Count=375                                 |
+|-------------------------------------------------------------------------------------|
+|00584BF9|M2Server.exe|LocalDB.pas    |TFrmDB         |LoadMonsterDB        |1640[23] |
+|0049A979|M2Server.exe|StdCtrls.pas   |TMemoStrings   |Insert               |2317[16] |
+|0060A730|M2Server.exe|svMain.pas     |TFrmMain       |StartTimerTimer      |941[121] |
+|-------------------------------------------------------------------------------------|
+|                                                                                     |
+|+Memory Leak: Type=Data; Total size=46; Count=1                                      |
+|-------------------------------------------------------------------------------------|
+|00402FBC|M2Server.exe|system.pas     |               |_GetMem              |2654[3]  |
+|0040593C|M2Server.exe|system.pas     |               |_NewAnsiString       |12429[7] |
+|00405967|M2Server.exe|system.pas     |               |_LStrFromPCharLen    |12461[12]|
+|00407F4D|M2Server.exe|system.pas     |               |LoadResString        |18578[3] |
+|-------------------------------------------------------------------------------------|
+|                                                                                     |
+|+Memory Leak: Type=Data; Total size=32; Count=1                                      |
+|-------------------------------------------------------------------------------------|
+|0040302B|M2Server.exe|system.pas     |               |_ReallocMem          |2786[33] |
+|00425435|M2Server.exe|Classes.pas    |TStringList    |SetCapacity          |5156[1]  |
+|004251D2|M2Server.exe|Classes.pas    |TStringList    |Grow                 |5071[5]  |
+|00425298|M2Server.exe|Classes.pas    |TStringList    |InsertItem           |5096[2]  |
+|00424F47|M2Server.exe|Classes.pas    |TStringList    |AddObject            |4955[9]  |
+|00424EEE|M2Server.exe|Classes.pas    |TStringList    |Add                  |4942[1]  |
+|0057FCEE|M2Server.exe|LocalDB.pas    |TFrmDB         |LoadMagicDB          |382[16]  |
+|-------------------------------------------------------------------------------------|
+|                                                                                     |
+|+Memory Leak: Type=Data; Total size=48; Count=1                                      |
+|-------------------------------------------------------------------------------------|
+|00402FBC|M2Server.exe|system.pas     |               |_GetMem              |2654[3]  |
+|0040593C|M2Server.exe|system.pas     |               |_NewAnsiString       |12429[7] |
+|00405967|M2Server.exe|system.pas     |               |_LStrFromPCharLen    |12461[12]|
+|00405A16|M2Server.exe|system.pas     |               |_LStrFromPWCharLen   |12657[11]|
+|-------------------------------------------------------------------------------------|
+|                                                                                     |
+|+Memory Leak: Type=TFieldDef; Total size=684; Count=19                               |
+|-------------------------------------------------------------------------------------|
+|005755B1|M2Server.exe|DBTables.pas   |TBDEDataSet    |InternalInitFieldDefs|4200[31] |
+|00562144|M2Server.exe|DB.pas         |TDataSet       |InitFieldDefs        |9353[2]  |
+|00555ABF|M2Server.exe|DB.pas         |TDefCollection |UpdateDefs           |2812[6]  |
+|005563B8|M2Server.exe|DB.pas         |TFieldDefs     |Update               |3168[2]  |
+|00578CDD|M2Server.exe|DBTables.pas   |TDBDataSet     |OpenCursor           |6149[2]  |
+|00561C41|M2Server.exe|DB.pas         |TDataSet       |Open                 |9201[2]  |
+|0060A809|M2Server.exe|svMain.pas     |TFrmMain       |StartTimerTimer      |952[132] |
+|004A46E7|M2Server.exe|ExtCtrls.pas   |TTimer         |Timer                |2281[1]  |
+|0042D300|M2Server.exe|Classes.pas    |               |StdWndProc           |11583[8] |
+|77D196C2|USER32.dll  |               |               |DispatchMessageA     |         |
+|004DA9F0|M2Server.exe|Forms.pas      |TApplication   |ProcessMessage       |8105[23] |
+|-------------------------------------------------------------------------------------|
+|                                                                                     |
+|+Memory Leak: Type=Data; Total size=224; Count=1                                     |
+|-------------------------------------------------------------------------------------|
+|00547B01|M2Server.exe|WideStrings.pas|TWideStringList|SetCapacity          |1163[1]  |
+|0054789E|M2Server.exe|WideStrings.pas|TWideStringList|Grow                 |1078[5]  |
+|00547964|M2Server.exe|WideStrings.pas|TWideStringList|InsertItem           |1103[2]  |
+|00547613|M2Server.exe|WideStrings.pas|TWideStringList|AddObject            |962[9]   |
+|005567E5|M2Server.exe|DB.pas         |               |AddFieldDefs         |3321[5]  |
+|-------------------------------------------------------------------------------------|
+|                                                                                     |
+|+Memory Leak: Type=TList; Total size=9440; Count=590                                 |
+|-------------------------------------------------------------------------------------|
+|005848A9|M2Server.exe|LocalDB.pas    |TFrmDB         |LoadMonGen           |1586[54] |
+---------------------------------------------------------------------------------------
+
+Modules Information:
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+|Handle  |Name        |Description                                     |Version        |Size   |Modified           |Path                                                                                                |
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+|00380000|Normaliz.dll|Unicode Normalization DLL                       |6.0.5441.0     |23552  |2011-12-23 17:22:24|C:\windows\system32                                                                                 |
+|00390000|M2Server.dll|http://www.51m2.com                             |1.0.0.1        |403456 |2012-04-30 18:49:30|D:\mirserver\Mir200                                                                                 |
+|00400000|M2Server.exe|http://www.51m2.com                             |1.0.0.2        |4363264|2012-05-01 15:19:40|D:\mirserver\Mir200                                                                                 |
+|1F840000|odbcint.dll |Microsoft Data Access - ODBC Resources          |3.525.1117.0   |94208  |2008-06-02 08:00:00|C:\windows\system32                                                                                 |
+|32300000|RHComm.dll  |                                                |1.76.3000.683  |845176 |2012-04-29 14:28:28|F:\× ╳× 腾 讯 聊 天\Bin                                                                          |
+|3E410000|wininet.dll |Internet Extensions for Win32                   |8.0.6001.23261 |919552 |2011-12-23 17:22:02|C:\windows\system32                                                                                 |
+|3EAB0000|iertutil.dll|Run time utility for Internet Explorer          |8.0.6001.23261 |2001408|2011-12-23 17:22:20|C:\windows\system32                                                                                 |
+|43CE0000|urlmon.dll  |OLE32 Extensions for Win32                      |8.0.6001.23261 |1214464|2011-12-23 17:21:58|C:\windows\system32                                                                                 |
+|4BDE0000|IDAPI32.DLL |                                                |5.2.0.2        |589312 |2001-05-11 00:00:00|C:\Program Files\Common Files\Borland Shared\BDE                                                    |
+|4C1E0000|idbat32.DLL |                                                |5.2.0.2        |139264 |2001-05-11 00:00:00|C:\Program Files\Common Files\Borland Shared\BDE                                                    |
+|4C5E0000|idsql32.DLL |                                                |5.2.0.2        |464896 |2001-05-11 00:00:00|C:\Program Files\Common Files\Borland Shared\BDE                                                    |
+|5D170000|comctl32.dll|Common Controls Library                         |5.82.2900.6028 |617472 |2011-12-23 17:24:52|C:\windows\system32                                                                                 |
+|62C20000|LPK.DLL     |Language Pack                                   |5.1.2600.5512  |22016  |2008-06-02 08:00:00|C:\windows\system32                                                                                 |
+|68D60000|DBGHELP.dll |Windows Image Helper                            |5.1.2600.5512  |640000 |2008-06-02 08:00:00|C:\windows\system32                                                                                 |
+|719C0000|mswsock.dll |Microsoft Windows Sockets 2.0 Service Provider  |5.1.2600.5625  |240640 |2011-12-23 17:25:42|C:\windows\System32                                                                                 |
+|71A10000|WS2HELP.dll |Windows Socket 2.0 Helper for Windows NT        |5.1.2600.5512  |19968  |2008-06-02 08:00:00|C:\windows\system32                                                                                 |
+|71A20000|WS2_32.dll  |Windows Socket 2.0 32-Bit DLL                   |5.1.2600.5512  |82432  |2008-06-02 08:00:00|C:\windows\system32                                                                                 |
+|71A40000|wsock32.dll |Windows Socket 32-Bit DLL                       |5.1.2600.5512  |28672  |2008-06-02 08:00:00|C:\windows\system32                                                                                 |
+|71A90000|mpr.dll     |Multiple Provider Router DLL                    |5.1.2600.5512  |59904  |2008-06-02 08:00:00|C:\windows\system32                                                                                 |
+|73540000|odbc32.DLL  |Microsoft Data Access - ODBC Driver Manager     |3.525.3012.0   |253952 |2011-12-23 17:25:12|C:\windows\system32                                                                                 |
+|73640000|msctfime.ime|Microsoft Text Frame Work Service IME           |5.1.2600.5512  |177152 |2008-06-02 08:00:00|C:\windows\system32                                                                                 |
+|73FA0000|USP10.dll   |Uniscribe Unicode script processor              |1.420.2600.5969|406016 |2011-12-23 17:24:44|C:\windows\system32                                                                                 |
+|74680000|MSCTF.dll   |MSCTF Server DLL                                |5.1.2600.5512  |296960 |2008-06-02 08:00:00|C:\windows\system32                                                                                 |
+|76300000|IMM32.DLL   |Windows XP IMM32 API Client DLL                 |5.1.2600.5512  |110080 |2008-06-02 08:00:00|C:\windows\system32                                                                                 |
+|76320000|comdlg32.dll|Common Dialogs DLL                              |6.0.2900.5512  |269824 |2008-06-02 08:00:00|C:\windows\system32                                                                                 |
+|76990000|ole32.dll   |Microsoft OLE for Windows                       |5.1.2600.6168  |1288704|2011-12-23 17:26:30|C:\windows\system32                                                                                 |
+|76BC0000|PSAPI.DLL   |Process Status Helper                           |5.1.2600.5512  |23040  |2008-06-02 08:00:00|C:\windows\system32                                                                                 |
+|76C60000|IMAGEHLP.DLL|Windows NT Image Helper                         |5.1.2600.6198  |148480 |2012-02-29 22:08:54|C:\windows\system32                                                                                 |
+|76D30000|iphlpapi.dll|IP Helper API                                   |5.1.2600.5512  |94208  |2008-06-02 08:00:00|C:\windows\system32                                                                                 |
+|76EF0000|DNSAPI.dll  |DNS Client API DLL                              |5.1.2600.6089  |149504 |2011-12-23 17:25:42|C:\windows\system32                                                                                 |
+|76F90000|rasadhlp.dll|Remote Access AutoDial Helper                   |5.1.2600.5512  |7680   |2008-06-02 08:00:00|C:\windows\system32                                                                                 |
+|770F0000|oleaut32.dll|                                                |5.1.2600.6058  |552448 |2011-12-23 17:25:16|C:\windows\system32                                                                                 |
+|77180000|comctl32.dll|User Experience Controls Library                |6.0.2900.6028  |1054208|2011-12-23 17:24:54|C:\windows\WinSxS\x86_Microsoft.Windows.Common-Controls_6595b64144ccf1df_6.0.2600.6028_x-ww_61e65202|
+|77BD0000|version.dll |Version Checking and File Installation Libraries|5.1.2600.5512  |18944  |2008-06-02 08:00:00|C:\windows\system32                                                                                 |
+|77BE0000|msvcrt.dll  |Windows NT CRT DLL                              |7.0.2600.5512  |343040 |2008-06-02 08:00:00|C:\windows\system32                                                                                 |
+|77D10000|USER32.dll  |Windows XP USER API Client DLL                  |5.1.2600.5512  |574976 |2008-06-02 08:00:00|C:\windows\system32                                                                                 |
+|77DA0000|ADVAPI32.dll|Advanced Windows 32 Base API                    |5.1.2600.5512  |674816 |2008-06-02 08:00:00|C:\windows\system32                                                                                 |
+|77E50000|RPCRT4.dll  |Remote Procedure Call Runtime                   |5.1.2600.6022  |590848 |2011-12-23 17:25:00|C:\windows\system32                                                                                 |
+|77EF0000|GDI32.dll   |GDI Client DLL                                  |5.1.2600.5698  |286720 |2011-12-23 17:23:30|C:\windows\system32                                                                                 |
+|77F40000|SHLWAPI.dll |Shell Light-weight Utility Library              |6.0.2900.5912  |473088 |2011-12-23 17:24:22|C:\windows\system32                                                                                 |
+|77FC0000|Secur32.dll |Security Support Provider Interface             |5.1.2600.5834  |56832  |2011-12-23 17:23:48|C:\windows\system32                                                                                 |
+|78130000|MSVCR80.dll |Microsoft? C Runtime Library                    |8.0.50727.6195 |632656 |2011-05-14 01:17:40|C:\windows\WinSxS\x86_Microsoft.VC80.CRT_1fc8b3b9a1e18e3b_8.0.50727.6195_x-ww_44262b86              |
+|7C420000|MSVCP80.dll |Microsoft? C++ Runtime Library                  |8.0.50727.6195 |554832 |2011-05-14 01:12:34|C:\windows\WinSxS\x86_Microsoft.VC80.CRT_1fc8b3b9a1e18e3b_8.0.50727.6195_x-ww_44262b86              |
+|7C800000|kernel32.dll|Windows NT BASE API Client DLL                  |5.1.2600.5781  |1152512|2011-12-23 17:23:36|C:\windows\system32                                                                                 |
+|7C920000|ntdll.dll   |NT Layer DLL                                    |5.1.2600.5512  |589312 |2008-06-02 08:00:00|C:\windows\system32                                                                                 |
+|7D590000|shell32.dll |Windows Shell Common Dll                        |6.0.2900.6072  |8321024|2011-01-21 22:42:30|C:\windows\system32                                                                                 |
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Processes Information:
+---------------------------------------------------------------------------------------------------------------------------------------------------
+|ID  |Name             |Description                            |Version        |Memory   |Priority|Threads|Path                                   |
+---------------------------------------------------------------------------------------------------------------------------------------------------
+|4   |System           |                                       |               |315392   |Normal  |62     |                                       |
+|256 |svchost.exe      |Generic Host Process for Win32 Services|5.1.2600.5512  |5349376  |Normal  |8      |C:\windows\system32                    |
+|368 |DBServer.exe     |http://www.51m2.com                    |1.0.0.1        |4526080  |Normal  |2      |D:\Mirserver\DBServer                  |
+|620 |smss.exe         |                                       |               |417792   |Normal  |3      |\SystemRoot\System32                   |
+|648 |SogouCloud.exe   |搜狗输入法 云计算代理                  |6.1.0.6953     |4501504  |Normal  |4      |C:\Program Files\SogouInput\6.1.0.6953 |
+|696 |winlogon.exe     |                                       |               |4444160  |High    |17     |C:\windows\system32                    |
+|740 |services.exe     |Services and Controller app            |5.1.2600.5512  |3608576  |Normal  |16     |C:\windows\system32                    |
+|752 |lsass.exe        |LSA Shell (Export Version)             |5.1.2600.5512  |1130496  |Normal  |16     |C:\windows\system32                    |
+|916 |svchost.exe      |Generic Host Process for Win32 Services|5.1.2600.5512  |5222400  |Normal  |16     |C:\windows\system32                    |
+|1080|svchost.exe      |Generic Host Process for Win32 Services|5.1.2600.5512  |21225472 |Normal  |60     |C:\windows\System32                    |
+|1324|ZhuDongFan       |                                       |               |7684096  |Normal  |7      |F:\× ╳× 杀 毒 软 件\360Safe\deepscan|
+|1528|spoolsv.exe      |Spooler SubSystem App                  |5.1.2600.6024  |5029888  |Normal  |10     |C:\windows\system32                    |
+|1680|Explorer.EXE     |Windows Explorer                       |6.0.2900.5512  |10698752 |Normal  |17     |C:\windows                             |
+|1788|bds.exe          |CodeGear RAD Studio for Windows        |11.0.2902.10471|11735040 |Normal  |14     |C:\BDS2007liteV8\bin                   |
+|1832|GameCenter.exe   |http://www.51m2.com                    |1.0.0.1        |3690496  |Normal  |1      |D:\mirserver                           |
+|1900|Bin              |                                       |               |94658560 |Normal  |28     |F:\× ╳× 腾 讯 聊 天                 |
+|1952|ctfmon.exe       |CTF Loader                             |5.1.2600.5512  |5332992  |Normal  |1      |C:\windows\system32                    |
+|2128|LogDataServer.exe|http://www.51m2.com                    |1.0.0.0        |2809856  |Normal  |2      |D:\Mirserver\LogServer                 |
+|2160|M2Server.exe     |http://www.51m2.com                    |1.0.0.2        |297517056|Normal  |1      |D:\mirserver\Mir200                    |
+|2316|LoginSrv.exe     |http://www.51m2.com                    |1.0.0.1        |3678208  |Normal  |3      |D:\Mirserver\LoginSrv                  |
+|2384|taskmgr.exe      |Windows TaskManager                    |5.1.2600.5512  |2916352  |High    |3      |C:\windows\system32                    |
+|2948|QQExter          |                                       |               |3977216  |Normal  |5      |F:\× ╳× 腾 讯 聊 天\Bin             |
+|3120|QQExter          |                                       |               |13217792 |Normal  |7      |F:\× ╳× 腾 讯 聊 天\Bin             |
+|3696|SelGate.exe      |http://www.51m2.com                    |1.0.0.0        |3653632  |Normal  |3      |D:\Mirserver\SelGate                   |
+|3780|conime.exe       |Console IME                            |5.1.2600.5512  |3121152  |Normal  |1      |C:\windows\system32                    |
+|3808|LoginGate.exe    |http://www.51m2.com                    |1.0.0.1        |3756032  |Normal  |3      |D:\Mirserver\LoginGate                 |
+|3984|RunGate.exe      |http://www.51m2.com                    |1.0.0.1        |3723264  |Normal  |2      |D:\Mirserver\RunGate                   |
+|4068|Explorer.EXE     |Windows Explorer                       |6.0.2900.5512  |1503232  |High    |12     |C:\windows                             |
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+Assembler Information:
+----------------------
+
+Registers:
+----------
+
+

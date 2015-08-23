@@ -1,0 +1,1317 @@
+[@Login]
+#if
+#act
+VAR Integer HUMAN TGRS
+VAR Integer HUMAN xsk
+#CALL [\接口\登陆脚本.txt] @登陆设置
+#CALL [\登陆脚本\新人登陆.txt] @新人登陆
+#CALL [\登陆脚本\区域标识.txt] @区域标识
+#CALL [\登陆脚本\功勋系统.txt] @功勋系统
+#CALL [\功能脚本\力量管理.txt] @力量管理
+#CALL [\登陆脚本\权限控制.txt] @权限控制
+#CALL [\登陆脚本\转生封号.txt] @转生封号
+LOADVAR HUMAN TGRS  ..\QuestDiary\数据文件\TGRSSave.txt
+detoxifcation
+NoGM
+[@一区下线]
+#if
+isadmin
+#act
+break
+
+#if
+checksn 1
+#act
+kick
+sendmsg 7 [启动:]本服务器正在启动。请大家稍后继续游戏!
+MessageBox 本服务器正在启动。请大家稍后继续游戏!
+
+[@二区下线]
+#if
+isadmin
+#act
+break
+
+#if
+checksn 2
+#act
+kick
+sendmsg 7 [启动:]本服务器正在启动。请大家稍后继续游戏!
+MessageBox 本服务器正在启动。请大家稍后继续游戏!
+
+
+[@全区下线]
+#if
+isadmin
+#act
+break
+
+#if
+checklevelex > 1
+#act
+kick
+sendmsg 7 [启动:]本服务器正在启动。请大家稍后继续游戏!
+MessageBox 本服务器正在启动。请大家稍后继续游戏!
+
+[@二区移动]
+#if
+checksn 2
+#act
+mapmove xsc 460 325
+
+
+[@OnTimer3]
+#IF
+CHECK [071] 1
+#ACT
+SETONTIMER 3 0
+MOV I3 0
+MOV I2 0
+MOV I1 0
+SET [071] 0
+MAPMOVE 0104
+GMEXECUTE 集体传送 JDPK 0104
+SENDMSG 0 允许你们决斗的时间已经结束！
+#elseact
+SETONTIMER 3 0
+
+[@决斗战书]
+#IF
+checksn 1
+CHECK [071] 1
+#ACT
+BREAK
+#IF
+checksn 1
+CHECK [070] 1
+#ACT
+SENDMSG 5 你关闭了决斗の战书的接收系统!已过滤一封战书!
+#ELSESAY
+决斗の战书:\ \
+有人在单挑间向全服发出了战书\ \
+他目前以<$STR(I2)>个元宝征寻对手,你可以在进入后\
+要求对方提高元宝押金,如果你想赢取他的元宝.至少得保证自己\
+也有<$STR(I2)>个元宝才能接受挑战\
+如果你失败.您的元宝将会被对方所得\
+№『<接受挑战/@接受挑战>』  №『<拒绝接受/@exit>』\
+#ELSEACT
+BREAK
+
+[@接受挑战]
+#IF
+checksn 1
+CHECKHUM JDPK 2
+#ACT
+MESSAGEBOX 对不起已经有人比你更快的接受了挑战,\你无法再接受挑战.下次快点按接受吧\
+break
+#IF
+checksn 1
+CHECKGAMEGOLD = I2
+#ACT
+GOTO @接受
+BREAK
+#IF
+checksn 1
+CHECKGAMEGOLD > I2
+#ACT
+GOTO @接受
+BREAK
+[@接受]
+#IF
+checksn 1
+LARGE I2 9
+#ACT
+MOV I1 2
+MOV I3 0
+MAPMOVE JDPK 15 15
+SENDMSG 0 英雄[%s]接受了战书的挑战,进入了决斗地图!
+SENDMSG 12 提示：请挑战者押注你的元宝，然后再让对方按下“开始决斗”按扭,否则你们无法获取奖励
+#ELSEACT
+SENDMSG 5 提示：您的元宝不足<$STR(I2)>,无法接受挑战！
+QManage.txt
+QFunction-0
+(@buy @getsellgold @selloff @buyoffn @storage @getback @upgradenow @getbackupgnow @makeitem @unmake @repair @s_repair @upgradenow @@sendmsg)
+%100
++0
++42
++5
++6
++43
++10
++11
++15
++3
++19
++20
++21
++22
++23
++24
++26
++30
++52
++53
++54
++62
++63
++64
+#CALL [\接口\QF功能脚本.txt] @功能脚本
+[@PlayOffLine]
+#CALL [\服务系统\自动挂机.txt] @自动挂机
+
+[@UserCmd3]
+#if
+checknamelist ..\QuestDiary\数据文件\红钻帐户.txt
+#act
+#CALL [\\服务系统\会员.txt] @会员
+
+#if
+CHECKMEMBERTYPE = 1
+#act
+#CALL [\\服务系统\会员.txt] @会员
+#elseact
+sendmsg 7 [提示:]你不是会员无法使用此命令!
+
+[@UserCmd4]
+#act
+#CALL [\\服务系统\充值.txt] @充值
+[@UserCmd5]
+#act
+#CALL [\\服务系统\帮助.txt] @帮助
+
+[@PlayLevelUp]
+#CALL [\接口\QF功能脚本.txt] @升级触发
+
+[@StdModeFunc7]
+#if
+checkjob warrior
+#act
+CLEARSKILL
+ADDSKILL 基本剑术
+ADDSKILL 攻杀剑术
+ADDSKILL 刺杀剑术
+ADDSKILL 半月弯刀
+ADDSKILL 野蛮冲撞
+ADDSKILL 烈火剑法
+#elseact
+give 战士普通技能 1
+messagebox 此书是战士技能书,不适合你练习!
+[@StdModeFunc8]
+#if
+checkjob wizard
+#act
+CLEARSKILL
+ADDSKILL 抗拒火环
+ADDSKILL 诱惑之光
+ADDSKILL 地狱火
+ADDSKILL 雷电术
+ADDSKILL 瞬息移动
+ADDSKILL 大火球
+ADDSKILL 爆裂火焰
+ADDSKILL 疾光电影
+ADDSKILL 火墙
+ADDSKILL 魔法盾
+ADDSKILL 地狱雷光
+ADDSKILL 圣言术
+ADDSKILL 冰咆哮
+#elseact
+give 法师普通技能 1
+messagebox 此书是法师技能书,不适合你练习!
+[@StdModeFunc9]
+#if
+checkjob taoist
+#act
+ADDSKILL 治愈术
+ADDSKILL 精神力战法
+ADDSKILL 施毒术
+ADDSKILL 灵魂火符
+ADDSKILL 召唤骷髅
+ADDSKILL 隐身术
+ADDSKILL 集体隐身术
+ADDSKILL 幽灵盾
+ADDSKILL 神圣战甲术
+ADDSKILL 困魔咒
+ADDSKILL 群体治疗术
+ADDSKILL 召唤神兽
+#elseact
+give 道士普通技能 1
+messagebox 此书是道士技能书,不适合你练习!
+
+[@StdModeFunc101]
+#if
+checkgold 9000001
+#act
+give 金条 1
+sendmsg 7 [提示:]你的金币太多了。无法再增加金币了！
+break
+
+#elseact
+give 金币 1000000
+
+[@StdModeFunc25]
+#SAY
+你想千里传音让全服的玩家都看到你的消息吗?\ \
+<千里传音/@@sendmsg> \ \
+<离    开/@exit>
+#ACT
+break
+
+[@@sendmsg]
+#if
+#act
+SETSENDMSGFLAG
+close
+
+[@StdModeFunc37]
+#IF
+#ACT
+throughhum 0 1800
+SETRANKLEVELNAME  \『凌波微步』\
+SENDMSG 7 [提示:]请在内挂里开启穿人穿怪！
+SENDMSG 0 [%s]大显神威，习得凌波微步,穿行无阻,效果持续1800秒！
+
+[@StdModeFunc32]
+#IF
+#ACT
+STATUSRATE 0 2 500 『金钟丹』
+SENDMSG 0 『%s』大显神威，使用金钟丹,500秒内大幅提升防御力!
+
+[@StdModeFunc33]
+#IF
+#ACT
+STATUSRATE 1 2 500 『铁布丹』
+SENDMSG 0 『%s』大显神威，使用铁布丹,500秒内大幅提升魔御力!
+
+[@StdModeFunc200]
+#if
+CHECKMEMBERTYPE = 1
+#act
+give 会员卡 1
+sendmsg 5 [提示:]你现在已经是会员了。请不要重复使用!
+break
+
+#elseact
+SETMEMBERTYPE = 1
+SETMEMBERLEVEL = 1
+sendmsg 5 [恭喜:]成功加入本服会员，你可以使用命令(@会员)享受功能服务
+[@StdModeFunc102]
+#act
+gamegold + 1
+sendmsg 7 [提示:]元宝+1
+
+[@StdModeFunc103]
+#act
+gamegold + 10
+sendmsg 7 [提示:]元宝+10
+
+[@StdModeFunc104]
+#act
+gamegold + 100
+sendmsg 7 [提示:]元宝+100
+
+[@StdModeFunc105]
+#act
+gamegold + 1000
+sendmsg 7 [提示:]元宝+1000
+[@StdModeFunc107]
+#act
+give 魔血戒指 2
+give 魔血手镯 2
+give 魔血项链 1
+sendmsg 7 [提示:]请查询包裹!
+[@StdModeFunc108]
+#act
+give 虹魔戒指 2
+give 虹魔手镯 2
+give 虹魔项链 1
+sendmsg 7 [提示:]请查询包裹!
+[@StdModeFunc106]
+#act
+give 祈祷头盔 1
+give 祈祷戒指 2
+give 祈祷手镯 2
+give 祈祷项链 1
+give 祈祷之刃 1
+sendmsg 7 [提示:]请查询包裹!
+[@StdModeFunc109]
+#act
+give 记忆戒指 1
+give 记忆手镯 1
+give 记忆项链 1
+give 记忆头盔 1
+sendmsg 7 [提示:]请查询包裹!
+[@StdModeFunc1]
+#act
+HAIRSTYLE 0
+SENDMSG 6 你的发型已经改变
+[@StdModeFunc2]
+#act
+HAIRSTYLE 1
+SENDMSG 6 你的发型已经改变
+
+[@StdModeFunc3]
+#IF
+#ACT
+  KILLMONEXPRATE 200 3600
+sendmsg 6 [提示:]一小时内你杀怪物将双倍经验，小退剩余时间保存!
+
+[@StdModeFunc201]
+<定位图功能已经启动，请选择你要记录或飞向的坐标!/FCOLOR=146>\
+<定位记录1:/FCOLOR=250> <$RecallPoint0> <$nMoveX0>,<$nMoveY0> <刷新记录/@jl001> <飞往记录点/@mjl001>\
+<定位记录2:/FCOLOR=250> <$RecallPoint1> <$nMoveX1>,<$nMoveY1> <刷新记录/@jl002> <飞往记录点/@mjl002>\
+<定位记录3:/FCOLOR=250> <$RecallPoint2> <$nMoveX2>,<$nMoveY2> <刷新记录/@jl003> <飞往记录点/@mjl003>\
+<定位记录4:/FCOLOR=250> <$RecallPoint3> <$nMoveX3>,<$nMoveY3> <刷新记录/@jl004> <飞往记录点/@mjl004>\
+<定位记录5:/FCOLOR=250> <$RecallPoint4> <$nMoveX4>,<$nMoveY4> <刷新记录/@jl005> <飞往记录点/@mjl005>\
+<最多只能记录五个坐标,记录的时候是记录人物当前坐标./FCOLOR=253>\
+[@mjl005]
+#IF
+CheckRecallPoint 4
+#ACT
+RecallPointMove 4
+#ELSEact
+goto @StdModeFunc201
+sendmsg 7 [定位图:]第5点还没有记录坐标。请记录后再使用!
+
+
+[@mjl004]
+#IF
+CheckRecallPoint 3
+#ACT
+RecallPointMove 3
+#ELSEact
+goto @StdModeFunc201
+sendmsg 7 [定位图:]第4点还没有记录坐标。请记录后再使用!
+
+[@mjl003]
+#IF
+CheckRecallPoint 2
+#ACT
+RecallPointMove 2
+#ELSEact
+goto @StdModeFunc201
+sendmsg 7 [定位图:]第3点还没有记录坐标。请记录后再使用!
+
+[@mjl002]
+#IF
+CheckRecallPoint 1
+#ACT
+RecallPointMove 1
+#ELSEact
+goto @StdModeFunc201
+sendmsg 7 [定位图:]第2点还没有记录坐标。请记录后再使用!
+
+[@mjl001]
+#IF
+CheckRecallPoint 0
+#ACT
+RecallPointMove 0
+#ELSEact
+goto @StdModeFunc201
+sendmsg 7 [定位图:]第1点还没有记录坐标。请记录后再使用!
+
+
+[@jl005]
+#act
+SetRecallPoint 4
+sendmsg 7 [定位图:]记录当前坐标成功!
+goto @StdModeFunc201
+
+[@jl004]
+#act
+SetRecallPoint 3
+sendmsg 7 [定位图:]记录当前坐标成功!
+goto @StdModeFunc201
+
+[@jl003]
+#act
+SetRecallPoint 2
+sendmsg 7 [定位图:]记录当前坐标成功!
+goto @StdModeFunc201
+
+[@jl002]
+#act
+SetRecallPoint 1
+sendmsg 7 [定位图:]记录当前坐标成功!
+goto @StdModeFunc201
+
+[@jl001]
+#act
+SetRecallPoint 0
+sendmsg 7 [定位图:]记录当前坐标成功!
+goto @StdModeFunc201
+
+
+
+
+[@StdModeFunc205]
+#if
+checkcastlewar
+#act
+give 怪物攻城卷 1
+sendmsg 7 [提示:]龙之皇城目前正在攻城或者调整中，请稍后再使用!
+break
+
+#IF
+CheckRangeMonCount SBK 131 118 20 > 10
+#ACT
+give 怪物攻城卷 1
+sendmsg 7 [提示:]有人使用了怪物攻城卷，请你在怪物被清光后再使用!
+break
+#IF
+CheckRangeMonCount SBKq 131 118 20 > 10
+#ACT
+give 怪物攻城卷 1
+sendmsg 7 [提示:]有人使用了怪物攻城卷，请你在怪物被清光后再使用!
+break
+
+#if
+checksn 2
+#act
+MISSION sbkq 134 114
+PARAM1 138
+PARAM2 118
+PARAM3 10
+PARAM4 10
+MOBPLACE 白野猪
+MOBPLACE 邪恶钳虫
+MOBPLACE 双头金刚
+MOBPLACE 双头血魔
+MOBPLACE 白野猪
+MOBPLACE 邪恶钳虫
+MOBPLACE 黄泉教主
+MOBPLACE 沃玛教主
+MOBPLACE 邪恶毒蛇
+MOBPLACE 冰宫法王
+MOBPLACE 触龙神
+MOBPLACE 牛魔王
+MOBPLACE 角蝇
+MOBPLACE 角蝇
+SENDMSG 0 2 [警告:]%s使用了怪物攻城卷！勇士们赶快前卫捍卫自己的家园！
+SENDMSG 0 2 龙之皇城陷入一片火海之中。。请玩家到大理传送员进入!
+break
+
+
+#elseact
+MISSION sbk 134 114
+PARAM1 138
+PARAM2 118
+PARAM3 10
+PARAM4 10
+MOBPLACE 白野猪
+MOBPLACE 邪恶钳虫
+MOBPLACE 双头金刚
+MOBPLACE 双头血魔
+MOBPLACE 白野猪
+MOBPLACE 邪恶钳虫
+MOBPLACE 黄泉教主
+MOBPLACE 沃玛教主
+MOBPLACE 邪恶毒蛇
+MOBPLACE 冰宫法王
+MOBPLACE 触龙神
+MOBPLACE 牛魔王
+MOBPLACE 角蝇
+MOBPLACE 角蝇
+SENDMSG 0 1 [警告:]%s使用了怪物攻城卷！勇士们赶快前卫捍卫自己的家园！
+SENDMSG 0 1 龙之皇城陷入一片火海之中。。请玩家到大理传送员进入!
+[@StdModeFunc204]
+#if
+random 4
+#act
+give 天宫卷书 1
+break
+SENDMSG 7 [提示:]兑换成功! 
+#if
+random 3
+#act
+give 魔殿卷书 1
+break
+SENDMSG 7 [提示:]兑换成功! 
+
+#if
+random 2
+#act
+give 冰宫卷书 1
+break
+SENDMSG 7 [提示:]兑换成功! 
+
+#if
+random 1
+#act
+give 地狱卷书 1
+break
+SENDMSG 7 [提示:]兑换成功! 
+#elseact
+goto @StdModeFunc204
+
+[@StdModeFunc206]
+<需要帮什么忙吗？/FCOLOR=250>\
+<仓库卷书随时随地存取物品。/FCOLOR=250>\ 
+\  \  \
+<保管物品/@storage>  <取回物品/@getback>\
+
+
+[@storage]
+<需要保管什么东西？/FCOLOR=250>\ \ \
+ <返 回/@Main> \
+[@StdModeFunc206]
+<请看目录决定找什么东西。/FCOLOR=250>\ \ \
+ <返 回/@StdModeFunc206>
+[@StdModeFunc209]
+#act
+RepairAll
+RepairHeroAll
+sendmsg 7 [修复:]全身装备和英雄装备已经特修完成.!
+[@StdModeFunc202]
+#act
+USEJZ 3
+[@StdModeFunc203]
+#act
+USEJZ 2
+[@StdModeFunc210]
+#if
+checksn 1
+#act
+OBSERVER 10
+sendmsg 0 1  [超级隐身:]%s超级隐身丹10秒内他将彻底隐身!
+#if
+checksn 2
+#act
+OBSERVER 10
+sendmsg 0 2  [超级隐身:]%s超级隐身丹10秒内他将彻底隐身!
+[@StdModeFunc212]
+#IF
+checkjob warrior
+#SAY
+是不是做武士不好玩呀，换换别的试试吧！\ \
+『<玩玩法师/@ToWizard>』\
+『<玩玩道士/@Totaos>』\ \
+〖<关闭/@exit>〗
+#ACT
+break
+#IF
+checkjob wizard
+#SAY
+是不是做魔法师不好玩呀，换换别的试试吧！\ \
+『<玩玩武士/@Towarr>』\
+『<玩玩道士/@Totaos>』\ \
+〖<关闭/@exit>〗
+#ACT
+break
+#IF
+checkjob taoist
+#SAY
+是不是做道士不好玩呀，换换别的试试吧！\ \
+『<玩玩武士/@Towarr>』\
+『<玩玩法师/@ToWizard>』\ \
+〖<关闭/@exit>〗
+#ACT
+break
+[@Towarr]
+#if
+#act
+GMEXECUTE 还原属性点 self
+   CHANGEJOB Warrior
+CLEARSKILL
+
+KICK
+#SAY
+职业转变！请重新分配属性点！本来技能已经删除！。\ \
+<请小退后查看!>\
+〖<关闭/@exit>〗
+
+[@ToWizard]
+#if
+#act
+GMEXECUTE 还原属性点 self
+   CHANGEJOB Wizard
+CLEARSKILL
+KICK
+#SAY
+职业转变！请重新分配属性点！本来技能已经删除！。\ \
+<请小退后查看!>\
+〖<关闭/@exit>〗
+
+
+[@Totaos]
+#if
+#act
+GMEXECUTE 还原属性点 self
+   CHANGEJOB Taoist
+CLEARSKILL
+KICK
+#SAY
+职业转变！请重新分配属性点！本来技能已经删除！。\ \
+<请小退后查看!>\
+〖<关闭/@exit>〗
+[@StdModeFunc211]
+#act
+GMEXECUTE 还原属性点 self
+SENDMSG 7 [提示]:你的属性点已经还原可以重新分配了!
+
+
+[@StdModeFunc309]
+#act
+Gmexecute Supermake1 1 3 7
+sendmsg 6 提示:你的武器已经增加幸运7点,武器最高幸运为7点!
+
+[@StdModeFunc308]
+#CALL [\\服务系统\黄金宝箱.txt] @黄金宝箱
+
+
+
+[@StdModeFunc314]
+#if
+checkitem 强效太阳水 6
+#act
+take  强效太阳水 6
+give 捆装太阳水
+#elseact
+give 打捆绳 1
+MessageBox 打捆失败!请检查你的包裹里是否有6个强效太阳水!
+[@StdModeFunc316]
+#act
+ADDSKILL 打造密术
+SENDMSG 7 [提示]:练习打造密术成功
+
+[@StdModeFunc317]
+#act
+ADDSKILL 炼金密术
+SENDMSG 7 [提示]:练习炼金密术成功
+
+[@StdModeFunc318]
+#act
+ADDSKILL 炼丹密术
+SENDMSG 7 [提示]:练习炼丹密术成功
+
+[@StdModeFunc319]
+#act
+ADDSKILL 缝纫密术
+SENDMSG 7 [提示]:练习缝纫密术成功
+[GOODS]
+mapinfo.txt
+loadmapinfo map.txt
+[dali 王者大陆]  day   MUSIC(100) NOTALLOWUSEMAGIC(圣言术)  RUNMON NOTALLOWUSEITEMS(随机传送卷) MYSHOP
+[xsc 永恒大陆]  day   MUSIC(104) NOTALLOWUSEMAGIC(圣言术)  RUNMON NOTALLOWUSEITEMS(随机传送卷)  MYSHOP 
+[4gly 炼狱] day 
+[4gsjg 水晶宫] day 
+4gsjg 166 71 -> 4gsjg1   15 93
+[4gsjg1 水晶宫大厅] day 
+
+[dali_01 留香阁]  day  FIGHT  MUSIC(100)  RUNMON
+dali_01 14 20 -> dali 134 702
+dali_01 15 19 -> dali 134 702
+dali 132 702 -> dali_01 14 19
+dali 133 702 -> dali_01 14 19
+
+[dali_02 酒店]  day  FIGHT  MUSIC(100) RUNMON
+dali_02 5 25 -> dali 125 703
+dali_02 6 26 -> dali 125 703
+dali 126  702 -> dali_02 6 25
+[dali_03 服装店]  day  FIGHT  MUSIC(100) RUNMON
+dali_03 9 12 -> dali 122 633
+dali 121 632 -> dali_03 9 12
+
+[bq_dg 比奇道真观]  day  FIGHT MUSIC(104) RUNMON
+bq_dg 7 18 -> xsc 500 284
+xsc 501 283 -> bq_dg 8 17
+[bq_hg 比奇皇宫]  day  FIGHT MUSIC(104) RUNMON NOHORSE
+bq_hg 32 46 -> xsc 429 265
+bq_hg 33 45 -> xsc 429 265
+bq_hg 35 44 -> xsc 429 265
+bq_hg 36 43 -> xsc 429 265
+xsc 428 264 -> bq_hg 33 43
+[bq_gz 比奇酒楼]  day  FIGHT MUSIC(104) RUNMON
+xsc 453 272 -> bq_gz 10 40
+bq_gz 9 41  -> xsc 452 273
+bq_gz 8 40  -> xsc 452 273
+[bqfj01 药铺]  day  FIGHT MUSIC(104) RUNMON
+bqfj01 10 12 -> xsc 481 263
+xsc 480 262 -> bqfj01 9 11
+[bqfj02 点心店]  day  FIGHT MUSIC(104) RUNMON
+xsc 465 280 -> bqfj02 19 14
+bqfj02 19 15 -> xsc 465 281
+[bqfj03 杂物店]  day  FIGHT MUSIC(104) RUNMON
+bqfj03 9 13 -> xsc 469 270
+xsc 468 269 ->  bqfj03 8 12
+[bqfj04 防具店]  day  FIGHT MUSIC(104) RUNMON
+ xsc 432 299 -> bqfj04 4 12
+xsc 431 298 -> bqfj04 4 12
+ bqfj04 3 13 -> xsc 431 299
+bqfj04 4 13 -> xsc 431 299
+bqfj04 5 13 -> xsc 431 299
+[bqfj05 存储室]  day  FIGHT MUSIC(104) RUNMON
+bqfj05 2 13 -> xsc 425 287
+xsc 425 286 -> bqfj05 3 12
+
+
+[xrc_01 村外客栈]  day  FIGHT MUSIC(104) RUNMON
+
+xsc 191 110 -> xrc_01 8 18
+xrc_01 8 19 -> xsc 190 111
+[dl 地牢]  day MUSIC(104)
+xsc 63 12 -> dl 271 142
+dl 272 144 -> xsc 63 14
+[bqkq 废矿区]  day MINE
+bqkq  316 127 -> Q004	14 14
+[Q004 尸王殿] day 	 NEEDHOLE  NORECONNECT(bqkq)
+bqkq 320 120 ->  Q004	14 14
+[D024  袄玛寺庙]  day   NORANDOMMOVE
+xsc  260,99  -> D024  16,19
+D024  16,18   -> xsc  260,100
+[M100 野猪走廊]  day
+
+
+
+祖玛庙
+[D5071	祖玛六层大厅]  day 	NOPOSITIONMOVE
+[D5072	祖玛七层一]  day 	NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷) 	NORECONNECT(D5071)	NOPOSITIONMOVE
+[D5073	祖玛七层二]  day 	NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷) 	NORECONNECT(D5071)	NOPOSITIONMOVE
+[D5074	祖玛七层三]  day 	NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷) 	NORECONNECT(D5071)	NOPOSITIONMOVE NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[D515	祖玛教主之家]  day 	NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷) 	NORECONNECT(D5071) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+
+
+D5071	39,43 -> D5072	7,51
+D5072	6,50	-> D5071	38,42
+
+D5072	90,20	-> D5073	10,69
+D5073	9,70	-> D5072	89,21
+
+D5073	60,9	-> D5074	47,90
+D5074	48,91	-> D5073	59,10
+D5074      77,15                ->         D515       14,31
+D515       13,32                ->         D5074      76,16  
+
+
+
+[SBK 龙之皇城]  day MUSIC(103)  NOTALLOWUSEITEMS(定位图)  RUNMON  NOTSETPOINT
+
+[D701S 龙之皇城秘道]  day FIGHT3  NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷|定位图) MUSIC(103) RUNMON  NOTSETPOINT
+;秘密通道
+
+;皇宫正门
+SBK     99 77  ->  sbkhg 33 43
+SBK     99 77  ->  sbkhg 33 43
+sbkhg 32 46 -> SBK     99 77
+sbkhg 33 45 -> SBK     99 77
+sbkhg 35 44 -> SBK     99 77
+sbkhg 36 43 -> SBK     99 77
+
+
+;皇宫侧门
+SBK     94 78  ->  sbkhg  18 45
+SBK     96 78  ->  sbkhg  22 45
+SBK     100 75  ->  sbkhg 31 38
+
+
+[sbkhg 龙城皇宫]  day CHECKQUEST(sbk) NORECALL NOGUILDRECALL NODEARRECALL  NOMasterRECALL NORANDOMMOVE NOTALLOWUSEITEMS(定位图|超级随机卷) MUSIC(103) RUNMON NOHORSE  NOTSETPOINT
+
+
+;[4gpyd	潘夜岛]  day  NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷)
+[4gbg 潘夜冰宫]  day  NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷）
+4gbg 136 65 -> 4gbg1   15 32
+[4gbg1 潘夜冰宫密室]  day  NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷) NORECONNECT(4gpyd) NOTALLOWUSEITEMS(定位图)  NOTSETPOINT
+4gpyd 73 8 -> 4gbg 180 171
+4gbg 181 172 -> 4gpyd 73 9
+[4gjsd 魔殿通道一]  day  NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷)
+4gjsd 178 87 -> 4gjsd1   26 27
+[4gjsd1 魔殿围廊]  day  NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷) NOTALLOWUSEITEMS(定位图)  NOTSETPOINT
+4gjsd1 136 146 -> 4gjsd2   46 38
+[4gjsd2 魔殿大堂]  day  NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷) NORECONNECT(4gjsd) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+
+[D2008 霸者大厅]  day 
+[D2009 幽冥回廊]  day 
+[D2010 纵横道]  day 
+[D2011 魔魂殿]  day  NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[D2012 炼狱回廊]  day  	NORECONNECT(D2012) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[D2013 封魔殿]  day  	NORECONNECT(D2010) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+
+
+D2008     26,23  -> D2009    85,88
+D2009     18,21  -> D2010    286,281
+D2010     170,36  -> D2011   86,91
+D2011     19,20   ->  D2012  84,85
+D2012     18,21   ->  D2013  82,83
+
+
+D2009    85,88  -> D2008     26,23
+D2010    286,281  -> D2009     18,21
+D2011   86,91  -> D2008     26,23
+D2012  84,85  -> D2011     19,20
+D2013  82,83  -> D2012     18,21
+[4gdy	血魔地狱]  day  NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷)
+[4gdy1	血魔关]  day  NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<4gdy1>4gdy2	血魔密室]  day  NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+4gdy 367  94 -> 4gdy1   46  41
+[<4gbg1>4gbg2 诱惑堂]  day 
+
+	
+
+
+
+
+[4g_hlg	红楼梦一层]  day  NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷)
+4g_hlg 96 108 -> 4g_hlg1 25 183
+4g_hlg1 25 183 -> 4g_hlg 96 108
+[4g_hlg1	红楼梦二层]  day  NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷|定位图) NOTSETPOINT
+4g_hlg1 110 38 -> 4g_hlg2 36 53
+[4g_hlg2	红楼梦大厅]  day  NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷|定位图) NOTSETPOINT
+
+[4g_ztg	驽玛一层]  day  NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷)
+4g_ztg 70 88 -> 4g_ztg1 84 85
+4g_ztg1 84 85 -> 4g_ztg 70 88
+[4g_ztg1	驽玛大道]  day  NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+4g_ztg1 16 17 -> 4g_ztg2 60 67
+[4g_ztg2	驽玛大厅]  day  NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+
+[4G_AS001 第1层海宫]  day   NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷)
+4G_AS001 288 34 -> 4G_AS003 47 81
+4G_AS003 47 81 -> 4G_AS001 288 34
+[4G_AS003 第2层魔宫]  day   NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷)
+4G_AS004 189 348 -> 4G_AS003 17 241
+4G_AS004 61 321 -> 4G_AS003 17 241
+4G_AS004 89 71 -> 4G_AS003 17 241
+[4G_AS004 天宫]  day   NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷|定位图) NORECONNECT(4g_AS001) NOTSETPOINT
+
+[0147 监狱]  day  SAFE NORANDOMMOVE NOPOSITIONMOVE   NODEARRECALL  NOMasterRECALL NORECALL NOTALLOWUSEITEMS(超级随机卷|地牢逃脱卷|回城卷|行会回城卷|超级回城卷|定位图)  
+NOTALLOWUSEMAGIC(瞬息移动|野蛮冲撞)  NOTSETPOINT
+[<0147>147 监狱]  day  SAFE NORANDOMMOVE NOPOSITIONMOVE   NODEARRECALL  NOMasterRECALL NORECALL NOTALLOWUSEITEMS(超级随机卷|地牢逃脱卷|回城卷|行会回城卷|超级回城卷|定位图)  
+NOTALLOWUSEMAGIC(瞬息移动|野蛮冲撞)  NOTSETPOINT
+;副本地图==================================
+[fb_ly01 炼狱副本]  day NORECALL NOGUILDRECALL   NODEARRECALL  NOMasterRECALL  NORECONNECT(dali_02) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[fb_bg01 冰宫副本]  day NORECALL NOGUILDRECALL  NODEARRECALL  NOMasterRECALL  NORECONNECT(dali_02) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<4gbg1>fb_bg02 冰宫大殿]  day NORECALL NOGUILDRECALL  NODEARRECALL  NOMasterRECALL  NORECONNECT(dali_02) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[fb_md01 魔殿副本]  day NORECALL   NODEARRECALL NOGUILDRECALL  NOMasterRECALL  NORECONNECT(dali_02) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<4gjsd2>fb_md02 魔殿大厅]  day NORECALL NOGUILDRECALL  NODEARRECALL  NOMasterRECALL  NORECONNECT(dali_02) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[4G_AS002 天宫副本]  day NORECALL NOGUILDRECALL  NODEARRECALL  NOMasterRECALL  NORECONNECT(dali_02) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+
+
+[<fb_ly01>fb_ly01b 炼狱副本]  day NORECALL NOGUILDRECALL  NODEARRECALL  NOMasterRECALL  NORECONNECT(dali_02) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<fb_bg01>fb_bg01b 冰宫副本]  day NORECALL  NOGUILDRECALL NODEARRECALL  NOMasterRECALL  NORECONNECT(dali_02) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<4gbg1>fb_bg02b 冰宫大殿]  day NORECALL   NOGUILDRECALL NODEARRECALL  NOMasterRECALL  NORECONNECT(dali_02) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<fb_md01>fb_md01b 魔殿副本]  day NORECALL NOGUILDRECALL  NODEARRECALL  NOMasterRECALL  NORECONNECT(dali_02) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<4gjsd2>fb_md02b 魔殿大厅]  day NORECALL  NOGUILDRECALL  NODEARRECALL  NOMasterRECALL  NORECONNECT(dali_02) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<4G_AS002>4G_AS002b 天宫副本]  day NORECALL NOGUILDRECALL  NODEARRECALL  NOMasterRECALL  NORECONNECT(dali_02) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+
+[<4gjsd2>cjsm 蛇魔殿]  day NORECALL NOGUILDRECALL  NODEARRECALL  NOMasterRECALL  NOTALLOWUSEITEMS(定位图) NORECONNECT(xsc) NOTSETPOINT
+[<4gjsd2>cjsm1 周双峰]  day NORECALL NOGUILDRECALL  NODEARRECALL  NOMasterRECALL NOTALLOWUSEITEMS(定位图) NORECONNECT(xsc) NOTSETPOINT
+
+[4g_1225  新年快乐]  day NORECALL MUSIC(105) NOTALLOWUSEITEMS(定位图) RUNMON NOTSETPOINT
+
+4g_1225 51 42 -> 4g1225_02 15 16
+4g1225_02 15 17 -> 4g_1225 51 43
+4g1225_02 16 16 -> 4g_1225 51 43
+
+[4g1225_01 别墅]  day NOTALLOWUSEITEMS(定位图) MUSIC(105) NOTSETPOINT
+4g1225_02 9 2 -> 4g1225_01 4 8
+4g1225_01 3 8 -> 4g1225_02 8 3
+[4g1225_02 别墅]  day NOTALLOWUSEITEMS(定位图) MUSIC(105) NOTSETPOINT
+
+4g_ct01 10 26 -> dali 337 373
+4g_ct01 11 27 -> dali 337 373
+dali 338 372 -> 4g_ct01  11 26
+[4g_ct01 天地之殿]  day MUSIC(100)
+[JZ002 雪域冰窟] day  NORANDOMMOVE NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+JZ001 16 51 -> JZ002 208 101
+JZ002 208 102 -> JZ001 15 52
+JZ002 45 32 -> YXSD 30 40
+[<4g1225_01>gm GM的别墅]  day NORECALL    NODEARRECALL  NOMasterRECALL  NOTALLOWUSEITEMS(定位图) MUSIC(105) NOTSETPOINT
+[<4g1225_02>gm2 GM的别墅]  day NORECALL    NODEARRECALL  NOMasterRECALL  NOTALLOWUSEITEMS(定位图) MUSIC(105) NOTSETPOINT
+gm2 9 2 -> gm 4 8
+gm 3 8 -> gm2 8 3
+[YXSD 雪域英雄圣地] day  NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[fox03 镇妖塔试炼] day     NODEARRECALL  NOMasterRECALL NORECONNECT(dali) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<fox03>fox031 镇妖塔一层] day     NODEARRECALL  NOMasterRECALL NORECONNECT(dali) NOTALLOWUSEITEMS(定位图)  NOTSETPOINT
+[<fox03>fox032 镇妖塔二层] day     NODEARRECALL  NOMasterRECALL NORECONNECT(dali) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<fox03>fox033 镇妖塔三层] day     NODEARRECALL  NOMasterRECALL NORECONNECT(dali) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<fox03>fox034 镇妖塔四层] day     NODEARRECALL  NOMasterRECALL NORECONNECT(dali) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<fox03>fox035 镇妖塔五层] day     NODEARRECALL  NOMasterRECALL NORECONNECT(dali) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<fox03>fox036 镇妖塔六层] day     NODEARRECALL  NOMasterRECALL NORECONNECT(dali) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<fox03>fox037 镇妖塔七层] day     NODEARRECALL  NOMasterRECALL NORECONNECT(dali) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<fox03>fox038 镇妖塔八层] day     NODEARRECALL  NOMasterRECALL NORECONNECT(dali) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<fox03>fox039 镇妖塔九层] day     NODEARRECALL  NOMasterRECALL NORECONNECT(dali) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<fox03>fox040 镇妖塔十层] day NORECALL    NODEARRECALL  NOMasterRECALL NORECONNECT(dali) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<fox03>fox041 镇妖塔终极] day NORECALL    NODEARRECALL  NOMasterRECALL NORECONNECT(dali) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+;二区地图开始=========================
+
+loadmapinfo map.txt
+[<dali>daliq 王者大陆]  day   MUSIC(100) NOTALLOWUSEMAGIC(圣言术)  RUNMON NOTALLOWUSEITEMS(随机传送卷)  MYSHOP 
+[<xsc>xscq 永恒大陆]  day   MUSIC(104) NOTALLOWUSEMAGIC(圣言术)  RUNMON NOTALLOWUSEITEMS(随机传送卷)   MYSHOP
+[<4gly>4glyq 炼狱] day 
+[<4gsjg>4gsjgq 水晶宫] day 
+4gsjgq 166 71 -> 4gsjg1q   15 93
+[<4gsjg1>4gsjg1q 水晶宫大厅] day 
+
+[<dali_01>dali_01q 留香阁]  day  FIGHT  MUSIC(100)  RUNMON
+dali_01q 14 20 -> daliq 134 702
+dali_01q 15 19 -> daliq 134 702
+daliq 132 702 -> dali_01q 14 19
+daliq 133 702 -> dali_01q 14 19
+
+[<dali_02>dali_02q 酒店]  day  FIGHT  MUSIC(100) RUNMON
+dali_02q 5 25 -> daliq 125 703
+dali_02q 6 26 -> daliq 125 703
+daliq 126  702 -> dali_02q 6 25
+[<dali_03>dali_03q 服装店]  day  FIGHT  MUSIC(100) RUNMON
+dali_03q 9 12 -> daliq 122 633
+daliq 121 632 -> dali_03q 9 12
+
+[<bq_dg>bq_dgq 比奇道真观]  day  FIGHT MUSIC(104) RUNMON
+bq_dgq 7 18 -> xscq 500 284
+xscq 501 283 -> bq_dgq 8 17
+[<bq_hg>bq_hgq 比奇皇宫]  day  FIGHT MUSIC(104) RUNMON NOHORSE
+bq_hgq 32 46 -> xscq 429 265
+bq_hgq 33 45 -> xscq 429 265
+bq_hgq 35 44 -> xscq 429 265
+bq_hgq 36 43 -> xscq 429 265
+xscq 428 264 -> bq_hgq 33 43
+[<bq_gz>bq_gzq 比奇酒楼]  day  FIGHT MUSIC(104) RUNMON
+xscq 453 272 -> bq_gzq 10 40
+bq_gzq 9 41  -> xscq 452 273
+bq_gzq 8 40  -> xscq 452 273
+[<bqfj01>bqfj01q 药铺]  day  FIGHT MUSIC(104) RUNMON
+bqfj01q 10 12 -> xscq 481 263
+xscq 480 262 -> bqfj01q 9 11
+[<bqfj02>bqfj02q 点心店]  day  FIGHT MUSIC(104) RUNMON
+xscq 465 280 -> bqfj02q 19 14
+bqfj02q 19 15 -> xscq 465 281
+[<bqfj03>bqfj03q 杂物店]  day  FIGHT MUSIC(104) RUNMON
+bqfj03q 9 13 -> xscq 469 270
+xscq 468 269 ->  bqfj03q 8 12
+[<bqfj04>bqfj04q 防具店]  day  FIGHT MUSIC(104) RUNMON
+ xscq 432 299 -> bqfj04q 4 12
+xscq 431 298 -> bqfj04q 4 12
+ bqfj04q 3 13 -> xscq 431 299
+bqfj04q 4 13 -> xscq 431 299
+bqfj04q 5 13 -> xscq 431 299
+[<bqfj05>bqfj05q 存储室]  day  FIGHT MUSIC(104) RUNMON
+bqfj05q 2 13 -> xscq 425 287
+xscq 425 286 -> bqfj05q 3 12
+
+
+[<xrc_01>xrc_01q 村外客栈]  day  FIGHT MUSIC(104) RUNMON
+
+xscq 191 110 -> xrc_01q 8 18
+xrc_01q 8 19 -> xscq 190 111
+[<dl>dlq 地牢]  day MUSIC(104)
+xscq 63 12 -> dlq 271 142
+dlq 272 144 -> xscq 63 14
+[<bqkq>bqkqq 废矿区]  day MINE
+
+bqkqq  316 127 -> Q004q	14 14
+
+[<Q004>Q004q 尸王殿] day 	 NEEDHOLE  NORECONNECT(bqkqq)
+bqkqq 320 120 ->  Q004q	14,14
+[<D024>D024q  袄玛寺庙]  day   NORANDOMMOVE
+xscq  260,99  -> D024q  16,19
+D024q  16,18   -> xscq  260,100
+
+[<M100>M100q 野猪走廊]  day
+
+
+
+祖玛庙
+[<D5071>D5071q	祖玛六层大厅]  day 	NOPOSITIONMOVE
+[<D5072>D5072q	祖玛七层一]  day 	NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷) 	NORECONNECT(D5071q)	NOPOSITIONMOVE
+[<D5073>D5073q	祖玛七层二]  day 	NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷) 	NORECONNECT(D5071q)	NOPOSITIONMOVE
+[<D5074>D5074q	祖玛七层三]  day 	NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷) 	NORECONNECT(D5071q)	NOPOSITIONMOVE NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<D515>D515q	祖玛教主之家]  day 	NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷) 	NORECONNECT(D5071q) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+
+
+D5071q	39,43 -> D5072q	7,51
+D5072q	6,50	-> D5071q	38,42
+
+D5072q	90,20	-> D5073q	10,69
+D5073q	9,70	-> D5072q	89,21
+
+D5073q	60,9	-> D5074q	47,90
+D5074q	48,91	-> D5073q	59,10
+D5074q      77,15                ->         D515q       14,31
+D515q       13,32                ->         D5074q      76,16  
+
+
+
+[<SBK>SBKq 龙之王城]  day MUSIC(103)  NOTALLOWUSEITEMS(定位图)  RUNMON NOTSETPOINT
+
+[<D701S>D701Sq 龙之皇城秘道]  day FIGHT3  NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷|定位图) MUSIC(103) RUNMON NOTSETPOINT
+;秘密通道
+
+;皇宫正门
+SBKq     99 77  ->  sbkhgq 33 43
+SBKq     99 77  ->  sbkhgq 33 43
+sbkhgq 32 46 -> SBKq     99 77
+sbkhgq 33 45 -> SBKq     99 77
+sbkhgq 35 44 -> SBKq     99 77
+sbkhgq 36 43 -> SBKq     99 77
+
+
+;皇宫侧门
+SBKq     94 78  ->  sbkhgq  18 45
+SBKq     96 78  ->  sbkhgq  22 45
+SBKq     100 75  ->  sbkhgq 31 38
+
+
+[<sbkhg>sbkhgq 龙城皇宫]  day CHECKQUEST(sbk) NORECALL NOGUILDRECALL NODEARRECALL  NOMasterRECALL NORANDOMMOVE NOTALLOWUSEITEMS(定位图|超级随机卷) MUSIC(103) RUNMON NOHORSE  
+NOTSETPOINT
+
+[<4gbg>4gbgq 潘夜冰宫]  day  NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷）
+4gbgq 136 65 -> 4gbg1q   15 32
+[<4gbg1>4gbg1q 潘夜冰宫密室]  day  NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷) NORECONNECT(4gpydq) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+
+[<4gjsd>4gjsdq 魔殿通道一]  day  NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷)
+4gjsd 178 87 -> 4gjsd1   26 27
+[<4gjsd1>4gjsd1q 魔殿围廊]  day  NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+4gjsd1 136 146 -> 4gjsd2   46 38
+[<4gjsd2>4gjsd2q 魔殿大堂]  day  NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷) NORECONNECT(4gjsdq) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+
+[<D2008>D2008q 霸者大厅]  day 
+[<D2009>D2009q 幽冥回廊]  day 
+[<D2010>D2010q 纵横道]  day 
+[<D2011>D2011q 魔魂殿]  day  NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<D2012>D2012q 炼狱回廊]  day  	NORECONNECT(D2012q) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<D2013>D2013q 封魔殿]  day  	NORECONNECT(D2010q) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+
+
+D2008q     26,23  -> D2009q    85,88
+D2009q     18,21  -> D2010q    286,281
+D2010q     170,36  -> D2011q   86,91
+D2011q     19,20   ->  D2012q  84,85
+D2012q     18,21   ->  D2013q  82,83
+
+
+D2009q    85,88  -> D2008q     26,23
+D2010q    286,281  -> D2009q     18,21
+D2011q   86,91  -> D2008q     26,23
+D2012q  84,85  -> D2011q     19,20
+D2013q  82,83  -> D2012q     18,21
+
+[<4gdy>4gdyq	血魔地狱]  day  NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷)
+[<4gdy1>4gdy1q	血魔关]  day  NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<4gdy1>4gdy2q	血魔密室]  day  NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+4gdyq 367  94 -> 4gdy1q   46  41
+[<4gbg1>4gbg2q 诱惑堂]  day 
+
+	
+
+
+
+
+[<4g_hlg>4g_hlgq	红楼梦一层]  day  NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷)
+4g_hlgq 96 108 -> 4g_hlg1q 25 183
+4g_hlg1q 25 183 -> 4g_hlgq 96 108
+[<4g_hlg1>4g_hlg1q	红楼梦二层]  day  NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷|定位图) NOTSETPOINT
+4g_hlg1q 110 38 -> 4g_hlg2q 36 53
+[<4g_hlg2>4g_hlg2q	红楼梦大厅]  day  NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷|定位图) NOTSETPOINT
+
+[<4g_ztg>4g_ztgq	驽玛一层]  day  NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷)
+4g_ztgq 70 88 -> 4g_ztg1q 84 85
+4g_ztg1q 84 85 -> 4g_ztgq 70 88
+[<4g_ztg1>4g_ztg1q	驽玛大道]  day  NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+4g_ztg1q 16 17 -> 4g_ztg2q 60 67
+[<4g_ztg2>4g_ztg2q	驽玛大厅]  day  NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+
+[<4G_AS001>4G_AS001q 第1层海宫]  day   NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷)
+4G_AS001q 288 34 -> 4G_AS003q 47 81
+4G_AS003q 47 81 -> 4G_AS001q 288 34
+[<4G_AS003>4G_AS003q 第2层魔宫]  day   NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷)
+4G_AS004q 189 348 -> 4G_AS003q 17 241
+4G_AS004q 61 321 -> 4G_AS003q 17 241
+4G_AS004q 89 71 -> 4G_AS003q 17 241
+[<4G_AS004>4G_AS004q 天宫]  day   NORANDOMMOVE NOTALLOWUSEITEMS(超级随机卷|定位图) NORECONNECT(4g_AS001q) NOTSETPOINT
+
+[<0147>0147q 监狱]  day  SAFE NORANDOMMOVE NOPOSITIONMOVE   NODEARRECALL  NOMasterRECALL NORECALL NOTALLOWUSEITEMS(超级随机卷|地牢逃脱卷|回城卷|行会回城卷|超级回城卷|定位图)  
+NOTALLOWUSEMAGIC(瞬息移动|野蛮冲撞) NOTSETPOINT
+[<0147>147q 监狱]  day  SAFE NORANDOMMOVE NOPOSITIONMOVE   NODEARRECALL  NOMasterRECALL NORECALL NOTALLOWUSEITEMS(超级随机卷|地牢逃脱卷|回城卷|行会回城卷|超级回城卷|定位图)  
+NOTALLOWUSEMAGIC(瞬息移动|野蛮冲撞) NOTSETPOINT
+;副本地图==================================
+[<fb_ly01>fb_ly01q 炼狱副本]  day NORECALL NOGUILDRECALL   NODEARRECALL  NOMasterRECALL  NORECONNECT(dali_02q) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<fb_bg01>fb_bg01q 冰宫副本]  day NORECALL NOGUILDRECALL  NODEARRECALL  NOMasterRECALL  NORECONNECT(dali_02q) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<4gbg1>fb_bg02q 冰宫大殿]  day NORECALL NOGUILDRECALL  NODEARRECALL  NOMasterRECALL  NORECONNECT(dali_02q) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<fb_md01>fb_md01q 魔殿副本]  day NORECALL   NODEARRECALL NOGUILDRECALL  NOMasterRECALL  NORECONNECT(dali_02q) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<4gjsd2>fb_md02q 魔殿大厅]  day NORECALL NOGUILDRECALL  NODEARRECALL  NOMasterRECALL  NORECONNECT(dali_02q) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<4G_AS002>4G_AS002q 天宫副本]  day NORECALL NOGUILDRECALL  NODEARRECALL  NOMasterRECALL  NORECONNECT(dali_02q) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+
+
+[<fb_ly01>fb_ly01bq 炼狱副本]  day NORECALL NOGUILDRECALL  NODEARRECALL  NOMasterRECALL  NORECONNECT(dali_02q) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<fb_bg01>fb_bg01bq 冰宫副本]  day NORECALL  NOGUILDRECALL NODEARRECALL  NOMasterRECALL  NORECONNECT(dali_02q) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<4gbg1>fb_bg02bq 冰宫大殿]  day NORECALL   NOGUILDRECALL NODEARRECALL  NOMasterRECALL  NORECONNECT(dali_02q) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<fb_md01>fb_md01bq 魔殿副本]  day NORECALL NOGUILDRECALL  NODEARRECALL  NOMasterRECALL  NORECONNECT(dali_02q) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<4gjsd2>fb_md02bq 魔殿大厅]  day NORECALL  NOGUILDRECALL  NODEARRECALL  NOMasterRECALL  NORECONNECT(dali_02q) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<4G_AS002>4G_AS002bq 天宫副本]  day NORECALL NOGUILDRECALL  NODEARRECALL  NOMasterRECALL  NORECONNECT(dali_02q) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+
+[<4gjsd2>cjsmq 蛇魔殿]  day NORECALL NOGUILDRECALL  NODEARRECALL  NOMasterRECALL  NOTALLOWUSEITEMS(定位图) NORECONNECT(xscq) NOTSETPOINT
+[<4gjsd2>cjsm1q 周双峰]  day NORECALL NOGUILDRECALL  NODEARRECALL  NOMasterRECALL NOTALLOWUSEITEMS(定位图) NORECONNECT(xscq) NOTSETPOINT
+
+[<4g_1225>4g_1225q  新年快乐]  day NORECALL MUSIC(105) NOTALLOWUSEITEMS(定位图) RUNMON NOTSETPOINT
+
+4g_1225q 51 42 -> 4g1225_02q 15 16
+4g1225_02q 15 17 -> 4g_1225q 51 43
+4g1225_02q 16 16 -> 4g_1225q 51 43
+
+[<4g1225_01>4g1225_01q 别墅]  day NOTALLOWUSEITEMS(定位图) MUSIC(105) NOTSETPOINT
+4g1225_02q 9 2 -> 4g1225_01q 4 8
+4g1225_01q 3 8 -> 4g1225_02q 8 3
+[<4g1225_02>4g1225_02q 别墅]  day NOTALLOWUSEITEMS(定位图) MUSIC(105) NOTSETPOINT
+
+4g_ct01q 10 26 -> daliq 337 373
+4g_ct01q 11 27 -> daliq 337 373
+daliq 338 372 -> 4g_ct01q  11 26
+[<4g_ct01>4g_ct01q 天地之殿]  day MUSIC(100)
+[<JZ002>JZ002q 雪域冰窟] day  NORANDOMMOVE NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+JZ001q 16 51 -> JZ002q 208 101
+JZ002q 208 102 -> JZ001q 15 52
+JZ002q 45 32 -> YXSDq 30 40
+
+[<YXSD>YXSDq 雪域英雄圣地] day  NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<fox03>fox03q 镇妖塔试炼] day     NODEARRECALL  NOMasterRECALL NORECONNECT(daliq) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<fox03>fox031q 镇妖塔一层] day     NODEARRECALL  NOMasterRECALL NORECONNECT(daliq) NOTALLOWUSEITEMS(定位图)  NOTSETPOINT
+[<fox03>fox032q 镇妖塔二层] day     NODEARRECALL  NOMasterRECALL NORECONNECT(daliq) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<fox03>fox033q 镇妖塔三层] day     NODEARRECALL  NOMasterRECALL NORECONNECT(daliq) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<fox03>fox034q 镇妖塔四层] day     NODEARRECALL  NOMasterRECALL NORECONNECT(daliq) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<fox03>fox035q 镇妖塔五层] day     NODEARRECALL  NOMasterRECALL NORECONNECT(daliq) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<fox03>fox036q 镇妖塔六层] day     NODEARRECALL  NOMasterRECALL NORECONNECT(daliq) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<fox03>fox037q 镇妖塔七层] day     NODEARRECALL  NOMasterRECALL NORECONNECT(daliq) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<fox03>fox038q 镇妖塔八层] day     NODEARRECALL  NOMasterRECALL NORECONNECT(daliq) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<fox03>fox039q 镇妖塔九层] day     NODEARRECALL  NOMasterRECALL NORECONNECT(daliq) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<fox03>fox040q 镇妖塔十层] day NORECALL    NODEARRECALL  NOMasterRECALL NORECONNECT(daliq) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<fox03>fox041q 镇妖塔终极] day NORECALL    NODEARRECALL  NOMasterRECALL NORECONNECT(daliq) NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<bq_gz>yjhc 卡线自救]  day  FIGHT MUSIC(104) RUNMON NORECALL    NODEARRECALL  NOMasterRECALL NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+
+
+
+[rydg01 地宫一层] MUSIC(106)
+rydg01 161 34 -> rydg02 23 169
+rydg02 23 169 -> rydg01 161 34
+[rydg02 地宫二层] MUSIC(106)
+rydg02 163 30 -> rydg03 24 167
+rydg03 24 167 -> rydg02 163 30
+[rydg03 地宫三层] MUSIC(106)  NORECALL  NOGUILDRECALL NODEARRECALL NOMasterRECALL   NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+rydg03 160 38 -> rydg04 28 163
+rydg04 28 163 -> rydg03 160 38
+[rydg04 地宫四层] MUSIC(106) NORANDOMMOVE NOPOSITIONMOVE NORECALL  NOGUILDRECALL NODEARRECALL NOMasterRECALL   NOTALLOWUSEITEMS(定位图) NORECONNECT(rydg01) NOTSETPOINT
+rydg04 154 35 -> rydg05 20 53
+rydg05 20 53 -> rydg04 154 35
+[rydg05 地宫五层] MUSIC(106)  NOPOSITIONMOVE NORECALL  NOGUILDRECALL NODEARRECALL NOMasterRECALL   NOTALLOWUSEITEMS(定位图) NORECONNECT(rydg01) NOTSETPOINT
+rydg05 74 54 -> rydg06 25 173
+rydg06 25 173 -> rydg05 74 54
+[rydg06 地宫六层] MUSIC(106) NORANDOMMOVE  NORECALL  NOGUILDRECALL NODEARRECALL NOMasterRECALL   NOTALLOWUSEITEMS(定位图) NORECONNECT(rydg03) NOTSETPOINT
+rydg06 112 23 -> rydg07 26 170
+rydg07 26 170 -> rydg06 112 23
+[rydg07 地宫七层] MUSIC(106) NORANDOMMOVE NOPOSITIONMOVE NORECALL  NOGUILDRECALL NODEARRECALL NOMasterRECALL   NOTALLOWUSEITEMS(定位图) NORECONNECT(rydg04) NOTSETPOINT
+rydg07 121 74 -> rydg08 20 174
+rydg08 20 174 -> rydg07 121 74
+[rydg08 地宫八层] MUSIC(106) NORANDOMMOVE NOPOSITIONMOVE NORECALL  NOGUILDRECALL NODEARRECALL NOMasterRECALL   NOTALLOWUSEITEMS(定位图) NORECONNECT(rydg04) NOTSETPOINT
+rydg08 135 95 ->  rydg08 101 104
+rydg08 101 104 ->  rydg08 135 95
+;====二区
+
+[<rydg01>rydg01q 地宫一层] MUSIC(106)
+rydg01q 161 34 -> rydg02q 23 169
+rydg02q 23 169 -> rydg01q 161 34
+[<rydg02>rydg02q 地宫二层] MUSIC(106)
+rydg02q 163 30 -> rydg03q 24 167
+rydg03q 24 167 -> rydg02q 163 30
+[<rydg03>rydg03q 地宫三层] MUSIC(106)  NORECALL  NOGUILDRECALL NODEARRECALL NOMasterRECALL   NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+rydg03q 160 38 -> rydg04q 28 163
+rydg04q 28 163 -> rydg03q 160 38
+[<rydg04>rydg04q 地宫四层] MUSIC(106) NORANDOMMOVE NOPOSITIONMOVE NORECALL  NOGUILDRECALL NODEARRECALL NOMasterRECALL   NOTALLOWUSEITEMS(定位图) NORECONNECT(rydg01q) NOTSETPOINT
+rydg04q 154 35 -> rydg05q 20 53
+rydg05q 20 53 -> rydg04q 154 35
+[<rydg05>rydg05q 地宫五层] MUSIC(106)  NOPOSITIONMOVE NORECALL  NOGUILDRECALL NODEARRECALL NOMasterRECALL   NOTALLOWUSEITEMS(定位图) NORECONNECT(rydg01q) NOTSETPOINT
+rydg05q 74 54 -> rydg06q 25 173
+rydg06q 25 173 -> rydg05q 74 54
+[<rydg06>rydg06q 地宫六层] MUSIC(106) NORANDOMMOVE  NORECALL  NOGUILDRECALL NODEARRECALL NOMasterRECALL   NOTALLOWUSEITEMS(定位图) NORECONNECT(rydg03q) NOTSETPOINT
+rydg06q 112 23 -> rydg07q 26 170
+rydg07q 26 170 -> rydg06q 112 23
+[<rydg07>rydg07q 地宫七层] MUSIC(106) NORANDOMMOVE NOPOSITIONMOVE NORECALL  NOGUILDRECALL NODEARRECALL NOMasterRECALL   NOTALLOWUSEITEMS(定位图) NORECONNECT(rydg04q) NOTSETPOINT
+rydg07q 121 74 -> rydg08q 20 174
+rydg08q 20 174 -> rydg07q 121 74
+[<rydg08>rydg08q 地宫八层] MUSIC(106) NORANDOMMOVE NOPOSITIONMOVE NORECALL  NOGUILDRECALL NODEARRECALL NOMasterRECALL   NOTALLOWUSEITEMS(定位图) NORECONNECT(rydg04q) NOTSETPOINT
+rydg08q 135 95 ->  rydg08q 101 104
+rydg08q 101 104 ->  rydg08q 135 95
+
+
+[TCGL 西域荒漠] day  MUSIC(107)   MYSHOP
+[<TCGL>TCGLQ 西域荒漠] day  MUSIC(107)   MYSHOP
+[hreo01 男战士英雄村]  day NORECALL NOGUILDRECALL  NODEARRECALL  NOMasterRECALL  NOTALLOWUSEITEMS(定位图) NORECONNECT(xsc) NOTSETPOINT
+[<hreo01>hreo02 女战士英雄村]  day NORECALL NOGUILDRECALL  NODEARRECALL  NOMasterRECALL  NOTALLOWUSEITEMS(定位图) NORECONNECT(xsc) NOTSETPOINT
+[<hreo01>hreo03 男法师英雄村]  day NORECALL NOGUILDRECALL  NODEARRECALL  NOMasterRECALL  NOTALLOWUSEITEMS(定位图) NORECONNECT(xsc) NOTSETPOINT
+[<hreo01>hreo04 女法师英雄村]  day NORECALL NOGUILDRECALL  NODEARRECALL  NOMasterRECALL  NOTALLOWUSEITEMS(定位图) NORECONNECT(xsc) NOTSETPOINT
+[<hreo01>hreo05 男道士英雄村]  day NORECALL NOGUILDRECALL  NODEARRECALL  NOMasterRECALL  NOTALLOWUSEITEMS(定位图) NORECONNECT(xsc) NOTSETPOINT
+[<hreo01>hreo06 女道士英雄村]  day NORECALL NOGUILDRECALL  NODEARRECALL  NOMasterRECALL  NOTALLOWUSEITEMS(定位图) NORECONNECT(xsc) NOTSETPOINT
+
+[<hreo01>hreo01q 男战士英雄村]  day NORECALL NOGUILDRECALL  NODEARRECALL  NOMasterRECALL  NOTALLOWUSEITEMS(定位图) NORECONNECT(xscq) NOTSETPOINT
+[<hreo01>hreo02q 女战士英雄村]  day NORECALL NOGUILDRECALL  NODEARRECALL  NOMasterRECALL  NOTALLOWUSEITEMS(定位图) NORECONNECT(xscq) NOTSETPOINT
+[<hreo01>hreo03q 男法师英雄村]  day NORECALL NOGUILDRECALL  NODEARRECALL  NOMasterRECALL  NOTALLOWUSEITEMS(定位图) NORECONNECT(xscq) NOTSETPOINT
+[<hreo01>hreo04q 女法师英雄村]  day NORECALL NOGUILDRECALL  NODEARRECALL  NOMasterRECALL  NOTALLOWUSEITEMS(定位图) NORECONNECT(xscq) NOTSETPOINT
+[<hreo01>hreo05q 男道士英雄村]  day NORECALL NOGUILDRECALL  NODEARRECALL  NOMasterRECALL  NOTALLOWUSEITEMS(定位图) NORECONNECT(xscq) NOTSETPOINT
+[<hreo01>hreo06q 女道士英雄村]  day NORECALL NOGUILDRECALL  NODEARRECALL  NOMasterRECALL  NOTALLOWUSEITEMS(定位图) NORECONNECT(xscq) NOTSETPOINT
+
+[<4g_1225>VIP1  会员之家]  day   NORECALL  NOGUILDRECALL NODEARRECALL NOMasterRECALL   NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+
+VIP1 51 42 -> VIP3 15 16
+VIP3 15 17 -> VIP1 51 43
+VIP3 16 16 -> VIP1 51 43
+
+[<4g1225_01>VIP2 会员的别墅]  day   NORECALL  NOGUILDRECALL NODEARRECALL NOMasterRECALL   NOTALLOWUSEITEMS(定位图) FIGHT NOTSETPOINT
+VIP3 9 2 -> VIP2 4 8
+VIP2 3 8 -> VIP3 8 3
+[<4g1225_02>VIP3 会员的别墅]  day   NORECALL  NOGUILDRECALL NODEARRECALL NOMasterRECALL   NOTALLOWUSEITEMS(定位图) SAFE NOTSETPOINT
+
+[vip01 玄冰洞1层] day   NORECALL  NOGUILDRECALL NODEARRECALL NOMasterRECALL   NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[vip02 玄冰洞2层] day   NORECALL  NOGUILDRECALL NODEARRECALL NOMasterRECALL   NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[vip03 玄冰洞3层] day   NORECALL  NOGUILDRECALL NODEARRECALL NOMasterRECALL   NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[vip04 金蛇寺庙]  day  NORECALL  NOGUILDRECALL NODEARRECALL NOMasterRECALL   NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+vip01 171 107 -> vip02 47 257
+vip02 47 257 -> vip01 171 107
+vip02 230 72 -> vip03 53 28
+vip03 53 28 -> vip02 230 72
+
+[<4g_1225>VIP1q  会员之家]  day   NORECALL  NOGUILDRECALL NODEARRECALL NOMasterRECALL   NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+
+VIP1q 51 42 -> VIP3q 15 16
+VIP3q 15 17 -> VIP1q 51 43
+VIP3q 16 16 -> VIP1q 51 43
+
+[<4g1225_01>VIP2q 会员的别墅]  day   NORECALL  NOGUILDRECALL NODEARRECALL NOMasterRECALL   NOTALLOWUSEITEMS(定位图) FIGHT NOTSETPOINT
+VIP3q 9 2 -> VIP2q 4 8
+VIP2q 3 8 -> VIP3q 8 3
+[<4g1225_02>VIP3q 会员的别墅]  day   NORECALL  NOGUILDRECALL NODEARRECALL NOMasterRECALL   NOTALLOWUSEITEMS(定位图) SAFE NOTSETPOINT
+
+[<vip01>vip01q 玄冰洞1层] day   NORECALL  NOGUILDRECALL NODEARRECALL NOMasterRECALL   NOTALLOWUSEITEMS(定位图)  NOTSETPOINT
+[<vip02>vip02q 玄冰洞2层] day   NORECALL  NOGUILDRECALL NODEARRECALL NOMasterRECALL   NOTALLOWUSEITEMS(定位图)  NOTSETPOINT
+[<vip03>vip03q 玄冰洞3层] day   NORECALL  NOGUILDRECALL NODEARRECALL NOMasterRECALL   NOTALLOWUSEITEMS(定位图)  NOTSETPOINT
+[<vip04>vip04q 金蛇寺庙]  day  NORECALL  NOGUILDRECALL NODEARRECALL NOMasterRECALL   NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+vip01q 171 107 -> vip02q 47 257
+vip02q 47 257 -> vip01q 171 107
+vip02q 230 72 -> vip03q 53 28
+vip03q 53 28 -> vip02q 230 72
+[<D716>D716Q  真石墓阵] DAY NORECALL
+[<D717>D717Q  真石墓阵] DAY NORECALL NORECONNECT(D716Q)
+D716Q  25,26   ->	D717Q 26,74
+D717Q  25,75   ->	D716Q 24,27
+tcglQ 226 230 -> d716Q  36 18
+;d716Q 37 17 -> tcglQ   225 231
+
+[D716  真石墓阵] DAY NORECALL
+[D717  真石墓阵] DAY NORECALL NORECONNECT(D716)
+D716  25,26   ->	D717 26,74
+D717  25,75   ->	D716 24,27
+tcgl 226 230 -> d716 36 18
+;d716 37 17 -> tcgl   225 231
+
+
+[D606 死亡棺材] day
+[D10062	赤月魔穴] day
+[D2083 火龙圣殿]  day
+
+[<D606>D606q 死亡棺材] day
+[<D10062>D10062q	赤月魔穴] day
+[<D2083>D2083q 火龙圣殿]  day
+
+[<B101>D5061A 宝藏阁入口]  day NORECALL NORECONNECT(dali) NOGUILDRECALL  NODEARRECALL  NOMasterRECALL   NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<B101>B101B 赤月皇朝]   day NORECALL NORECONNECT(dali) NOGUILDRECALL  NODEARRECALL  NOMasterRECALL   NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+
+[<B101>D5061AQ 宝藏阁入口]  day NORECALL NORECONNECT(daliQ) NOGUILDRECALL  NODEARRECALL  NOMasterRECALL   NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+[<B101>B101BQ 赤月皇朝]   day NORECALL NORECONNECT(daliQ) NOGUILDRECALL  NODEARRECALL  NOMasterRECALL   NOTALLOWUSEITEMS(定位图) NOTSETPOINT
+
+
